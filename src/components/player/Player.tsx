@@ -17,6 +17,7 @@ import Animated, {
 import {useSharedState} from '../../features/tabs/SharedContext';
 import FullScreenPlayer from './FullScreenPlayer';
 import AirPlayer from './AirPlayer';
+import {usePlayerStore} from '../../state/usePlayerStore';
 
 const MIN_PLAYER_HEIGHT = BOTTOM_TAB_HEIGHT + 60;
 const MAX_PLAYER_HEIGHT = screenHeight;
@@ -29,6 +30,7 @@ const withPlayer = <P extends object>(
     const isExpanded = useSharedValue(false);
     const isScroll = useSharedValue(false);
 
+    const {currentPlayingTrack} = usePlayerStore();
     const scrollRef = useRef<Animated.ScrollView>(null);
 
     useEffect(() => {
@@ -121,45 +123,48 @@ const withPlayer = <P extends object>(
     return (
       <View style={styles.container}>
         <WrappedComponent {...props} />
-        <GestureDetector gesture={combinedGesture}>
-          <Animated.View
-            style={[styles.playerContainer, animatedContainerStyles]}>
-            {/* full screen player */}
 
-            {Platform.OS === 'ios' ? (
-              <Animated.ScrollView
-                persistentScrollbar
-                ref={scrollRef}
-                pinchGestureEnabled
-                bounces={false}
-                showsVerticalScrollIndicator={false}
-                scrollEventThrottle={1}
-                onScroll={onScroll}
-                contentContainerStyle={styles.expnadedPlayer}
-                style={expandedOpacityStyle}>
-                <FullScreenPlayer />
-              </Animated.ScrollView>
-            ) : (
-              <Animated.View style={expandedOpacityStyle}>
-                <ScrollView
+        {currentPlayingTrack && (
+          <GestureDetector gesture={combinedGesture}>
+            <Animated.View
+              style={[styles.playerContainer, animatedContainerStyles]}>
+              {/* full screen player */}
+
+              {Platform.OS === 'ios' ? (
+                <Animated.ScrollView
                   persistentScrollbar
+                  ref={scrollRef}
                   pinchGestureEnabled
                   bounces={false}
                   showsVerticalScrollIndicator={false}
-                  nestedScrollEnabled
-                  contentContainerStyle={styles.expnadedPlayer}>
+                  scrollEventThrottle={1}
+                  onScroll={onScroll}
+                  contentContainerStyle={styles.expnadedPlayer}
+                  style={expandedOpacityStyle}>
                   <FullScreenPlayer />
-                </ScrollView>
-              </Animated.View>
-            )}
-            {/* air player */}
+                </Animated.ScrollView>
+              ) : (
+                <Animated.View style={expandedOpacityStyle}>
+                  <ScrollView
+                    persistentScrollbar
+                    pinchGestureEnabled
+                    bounces={false}
+                    showsVerticalScrollIndicator={false}
+                    nestedScrollEnabled
+                    contentContainerStyle={styles.expnadedPlayer}>
+                    <FullScreenPlayer />
+                  </ScrollView>
+                </Animated.View>
+              )}
+              {/* air player */}
 
-            <Animated.View
-              style={[styles.collapsedPlayer, collapsedOpacityStyle]}>
-              <AirPlayer />
+              <Animated.View
+                style={[styles.collapsedPlayer, collapsedOpacityStyle]}>
+                <AirPlayer />
+              </Animated.View>
             </Animated.View>
-          </Animated.View>
-        </GestureDetector>
+          </GestureDetector>
+        )}
       </View>
     );
   };
