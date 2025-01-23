@@ -5,6 +5,7 @@ import {StyleSheet, View} from 'react-native';
 import {fontR, screenHeight} from '../../utils/Scaling';
 import CustomText from '../../components/ui/CustomText';
 import Icon from '../../components/ui/Icon';
+import withPlayer from '../../components/player/Player';
 
 const SearchScreen: FC = () => {
   return (
@@ -26,4 +27,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchScreen;
+export default withPlayer(SearchScreen);
