@@ -102,7 +102,9 @@ const AirPlayer: FC = () => {
 
       <View style={styles.progressContainer}>
         <View style={styles.progressBackground}>
-          <View style={[styles.progressBar, {width: calculateProgressWidth}]} />
+          <View
+            style={[styles.progressBar, {width: calculateProgressWidth()}]}
+          />
         </View>
       </View>
     </LinearGradient>
