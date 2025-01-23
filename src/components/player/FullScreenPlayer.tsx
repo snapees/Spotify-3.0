@@ -15,6 +15,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Icon from '../ui/Icon';
 import CustomText from '../ui/CustomText';
 import VideoPlayer from './VideoPlayer';
+import ControlAndDetails from './ControlAndDetails';
 
 const FullScreenPlayer = () => {
   const [colors, setColors] = useState(['#666', '#666']);
@@ -68,6 +69,8 @@ const FullScreenPlayer = () => {
       </View>
 
       <View style={styles.albumContainer} />
+
+      <ControlAndDetails />
     </View>
   );
 };
@@ -75,8 +78,6 @@ const FullScreenPlayer = () => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: screenHeight,
-    // backgroundColor: 'green',
     backgroundColor: Colors.background,
   },
   gradient: {
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
   },
   albumContainer: {
     width: '100%',
-    backgroundColor: Colors.background,
+    height: screenHeight * 0.52,
   },
   imageContainer: {
     position: 'absolute',
